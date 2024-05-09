@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart'as path_provider ;
-import 'package:weight_tracker/screens/home_page.dart';
+import 'package:weight_tracker/pages/create_profile.dart';
+import 'package:weight_tracker/pages/main_page.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +19,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomePage(),
+      home: CreateProfilePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

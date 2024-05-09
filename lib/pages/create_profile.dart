@@ -1,41 +1,32 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../components/text_field.dart';
 
-class CreateProfile extends StatefulWidget {
-  const CreateProfile({super.key});
+class CreateProfilePage extends StatefulWidget {
+  // final void Function()? onTap;
+  const CreateProfilePage({super.key, });
 
   @override
-  State<CreateProfile> createState() => _CreateProfileState();
+  State<CreateProfilePage> createState() => _CreateProfilePageState();
 }
 
-class _CreateProfileState extends State<CreateProfile> {
+class _CreateProfilePageState extends State<CreateProfilePage> {
   final userNameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  //user signup
 
-  //user sign in
-  void signIn() async {
-    //get the auth service
-    //final authService = Provider.of<AuthService>(context, listen: false);
 
-    try {
-      //  await authService.signInWithEmailAndPassword(
-      //      emailController.text, passwordController.text);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
-    }
-  }
+    //get auth service
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
-      body:  SafeArea(
+      body: SafeArea(
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -58,17 +49,17 @@ class _CreateProfileState extends State<CreateProfile> {
                     height: 50,
                   ),
 
-                  //welcome back message
+                  //create account message
                   const Text(
-                    'Welcome :)',
+                    "Welcome, Let's Create Your Account",
                     style: TextStyle(fontSize: 24),
+                    textAlign: TextAlign.center,
                   ),
 
                   const SizedBox(
                     height: 25,
                   ),
-
-                  // username text field
+                  //username text field
                   MyTextField(
                       controller: userNameController,
                       hintText: 'Username',
@@ -78,29 +69,39 @@ class _CreateProfileState extends State<CreateProfile> {
                     height: 15,
                   ),
 
+                  // email text field
+                  MyTextField(
+                      controller: emailController,
+                      hintText: 'Email',
+                      obscureText: false),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+
                   // password text field
+                  MyTextField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      obscureText: true),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  // confirm password text field
+                  MyTextField(
+                      controller: confirmPasswordController,
+                      hintText: 'Confirm Password',
+                      obscureText: true),
 
                   const SizedBox(
                     height: 25,
                   ),
 
-                  //sign-in button
+                  //sign-up button
+                  // SignButton(onTap: signUp, text: 'Sign up'),
 
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  // Redirect to Sign up screen
-                  // Text.rich(
-                  //   style: const TextStyle(fontSize: 17),
-                  //   TextSpan(text: "Don't have an account? ", children: [
-                  //     TextSpan(
-                  //       text: 'Sign Up',
-                  //       style: const TextStyle(fontWeight: FontWeight.bold),
-                  //       recognizer: TapGestureRecognizer()
-                  //         ..onTap = widget.onTap,
-                  //     ),
-                  //   ]),
-                  // )
                 ],
               ),
             ),
