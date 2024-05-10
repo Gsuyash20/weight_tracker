@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
             )),
             ElevatedButton(
                 onPressed: () {}, child: const Text('Delete your data')),
-            SizedBox(height: 20,)
+            const SizedBox(height: 20,)
           ],
         ),
       ),

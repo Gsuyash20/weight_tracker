@@ -1,7 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import '../components/signup_button.dart';
 import '../components/text_field.dart';
 
 class CreateProfilePage extends StatefulWidget {
@@ -100,7 +99,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                   ),
 
                   //sign-up button
-                  // SignButton(onTap: signUp, text: 'Sign up'),
+                  //SignButton(onTap: signUp, text: 'Sign up'),
 
                 ],
               ),
