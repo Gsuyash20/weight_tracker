@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:weight_tracker/components/plot.dart';
 import '../components/card_tile.dart';
 import '../components/frosted_glass.dart';
 
@@ -34,38 +35,46 @@ class _HomePageState extends State<HomePage> {
                     height: MediaQuery.of(context).size.height / 2.5,
                     child: Column(
                       children: [
-                        const Text('Plot'),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 3,
-                          child: LineChart(
-                            LineChartData(
-                                minX: 0,
-                                maxX: 11,
-                                minY: 30, // minimum weight = 30
-                                maxY: 120, //maximum weight = 120
-                                lineBarsData: [
-                                  LineChartBarData(
-                                      spots: const [
-                                        FlSpot(0, 39),
-                                        FlSpot(1, 50),
-                                        FlSpot(2, 69),
-                                        FlSpot(3, 89),
-                                        FlSpot(4, 45),
-                                        FlSpot(5, 87),
-                                        FlSpot(6, 110),
-                                        FlSpot(7, 109),
-                                        FlSpot(8, 40),
-                                        FlSpot(9, 69),
-                                        FlSpot(10, 99),
-                                        FlSpot(11, 115),
-                                      ],
-                                      isCurved: true,
-                                      color: Colors.teal,
-                                      barWidth: 3,
-                                      belowBarData: BarAreaData(
-                                          show: true,
-                                          color: Colors.teal.withOpacity(0.3)))
-                                ]),
+                        const Text(
+                          'Plot',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 3,
+                            child: LineChart(
+                              LineChartData(
+                                  minX: 0,
+                                  maxX: 11,
+                                  minY: 30, // minimum weight = 30
+                                  maxY: 120, //maximum weight = 120
+                                  lineBarsData: [
+                                    LineChartBarData(
+                                        spots: const [
+                                          FlSpot(0, 39),
+                                          FlSpot(1, 50),
+                                          FlSpot(2, 69),
+                                          FlSpot(3, 89),
+                                          FlSpot(4, 45),
+                                          FlSpot(5, 87),
+                                          FlSpot(6, 110),
+                                          FlSpot(7, 109),
+                                          FlSpot(8, 40),
+                                          FlSpot(9, 69),
+                                          FlSpot(10, 99),
+                                          FlSpot(11, 115),
+                                        ],
+                                        isCurved: true,
+                                        color: Colors.teal,
+                                        barWidth: 3,
+                                        belowBarData: BarAreaData(
+                                            show: true,
+                                            color:
+                                                Colors.teal.withOpacity(0.3)))
+                                  ],
+                                  titlesData: Titles.getTitleData()),
+                            ),
                           ),
                         )
                       ],
