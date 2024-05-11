@@ -42,9 +42,7 @@ class HiveDatabase {
     await _userProfileBox.putAt(index, updatedProfile);
   }
 
-  Future<void> deleteUserProfile(int index) async {
-    await _userProfileBox.deleteAt(index);
-  }
+
 
   // Weight Entry CRUD operations
 
@@ -59,8 +57,21 @@ class HiveDatabase {
   Future<void> updateWeightEntry(int index, WeightEntry updatedEntry) async {
     await _weightEntryBox.putAt(index, updatedEntry);
   }
+// deleting all data of user
+  Future<void> deleteAllUserData() async {
+    await _userProfileBox.clear(); // Clear user profiles
+    await _weightEntryBox.clear(); // Clear weight entries
+  }
 
-  Future<void> deleteWeightEntry(int index) async {
-    await _weightEntryBox.deleteAt(index);
+  String getUsername() {
+    // Get the first user profile from the box
+    final userProfiles = _userProfileBox.values.toList();
+    if (userProfiles.isNotEmpty) {
+      final userProfile = userProfiles.first;
+      return userProfile.userName;
+    } else {
+      // Return a default username if no user profile is found
+      return "Guest";
+    }
   }
 }

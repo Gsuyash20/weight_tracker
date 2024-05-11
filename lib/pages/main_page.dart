@@ -11,7 +11,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int currentPageIndex = 0;
-  final List<Widget> screens = [const HomePage(), const ProfilePage()];
+  final List<Widget> screens = [const HomePage(), ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

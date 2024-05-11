@@ -24,6 +24,7 @@ class DialogBox extends StatelessWidget {
             // get user input
             TextField(
               controller: controller,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter your weight',

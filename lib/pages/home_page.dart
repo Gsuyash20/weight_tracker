@@ -17,10 +17,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
   late final HiveDatabase _hiveDatabase;
+  late String _username;
   @override
   void initState() {
     super.initState();
     _hiveDatabase = HiveDatabase();
+    _username =_hiveDatabase.getUsername();
   }
   //save new entry
   void saveNewEntry() async {
@@ -48,10 +50,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           //Todo: add username
-          'Hi "username",',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          'Hi "$_username",',
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(
