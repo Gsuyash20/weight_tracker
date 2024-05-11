@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:weight_tracker/components/dialog_box.dart';
 import 'package:weight_tracker/components/plot.dart';
 import '../components/card_tile.dart';
 import '../components/frosted_glass.dart';
@@ -12,6 +13,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = TextEditingController();
+
+  //save new entry
+  void saveNewEntry(){
+
+  }
+  // create a new entry
+  void createNewEntry() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewEntry,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,10 +118,8 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //Todo: Navigate to edit weight screen
-        },
-        tooltip: 'Edit Entry',
+        onPressed: createNewEntry,
+        tooltip: 'Create Entry',
         child: const Icon(Icons.edit),
       ),
     );

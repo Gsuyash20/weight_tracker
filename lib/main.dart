@@ -5,11 +5,17 @@ import 'package:weight_tracker/pages/create_profile.dart';
 import 'package:weight_tracker/pages/home_page.dart';
 import 'package:weight_tracker/pages/main_page.dart';
 
+import 'model/user_profile.dart';
+import 'model/weight_entry.dart';
+
 Future<void> main() async {
   // initialize hive
-  Hive.initFlutter();
-  // open a hive box
-  // await Hive.openBox("weight_database");
+  await Hive.initFlutter();
+
+  //open a hive box
+  await Hive.openBox("weight_database");
+  Hive.registerAdapter(UserProfileAdapter());
+  Hive.registerAdapter(WeightEntryAdapter());
 
   runApp(const MyApp());
 }

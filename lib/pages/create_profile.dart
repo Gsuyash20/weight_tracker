@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../components/signup_button.dart';
+import '../components/my_button.dart';
 import '../components/text_field.dart';
 
 class CreateProfilePage extends StatefulWidget {
