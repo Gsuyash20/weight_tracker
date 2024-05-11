@@ -52,7 +52,7 @@ class HiveDatabase {
     await _weightEntryBox.add(weightEntry);
   }
 
-  List<WeightEntry> getWeightEntries() {
+  List<WeightEntry>getWeightEntries() {
     return _weightEntryBox.values.toList();
   }
 

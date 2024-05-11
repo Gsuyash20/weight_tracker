@@ -75,7 +75,20 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                   ),
 
                   //sign-up button
-                  MyButton(onPressed: signUp, text: 'Sign up'),
+                  ElevatedButton(
+                    onPressed: signUp,
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size(
+                            MediaQuery.of(context).size.width / 1.5,
+                            MediaQuery.of(context).size.height / 15),
+                        backgroundColor: Colors.grey.shade200,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        textStyle: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold)),
+                    child: const Text('Sign Up'),
+                  )
                 ],
               ),
             ),

@@ -4,6 +4,8 @@ import 'package:weight_tracker/components/dialog_box.dart';
 import 'package:weight_tracker/components/plot.dart';
 import '../components/card_tile.dart';
 import '../components/frosted_glass.dart';
+import '../data/hive_database.dart';
+import '../model/weight_entry.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,11 +16,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
-
-  //save new entry
-  void saveNewEntry(){
-
+  late final HiveDatabase _hiveDatabase;
+  @override
+  void initState() {
+    super.initState();
+    _hiveDatabase = HiveDatabase();
   }
+  //save new entry
+  void saveNewEntry() async {
+    final weightEntry = WeightEntry(
+        weightInKg: double.parse(_controller.text), entryTime: DateTime.now());
+    await _hiveDatabase.addWeightEntry(weightEntry);
+    Navigator.of(context).pop(); // Close the dialog
+  }
+
   // create a new entry
   void createNewEntry() {
     showDialog(
@@ -109,12 +120,17 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  //final entry = weightEntry[index];
-                  return const CardTile();
-                }),
+              itemCount: _hiveDatabase.getWeightEntries().length,
+              itemBuilder: (context, index) {
+                final entry = _hiveDatabase.getWeightEntries()[index];
+                return CardTile(
+                  weightInKg: entry.weightInKg,
+                  entryTime: entry.entryTime,
+                );
+              },
+            ),
           )
+
         ],
       ),
       floatingActionButton: FloatingActionButton(
