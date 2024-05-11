@@ -3,9 +3,9 @@ import 'package:hive/hive.dart';
 class UserProfile {
   final String userName;
 
-
   UserProfile({required this.userName});
 }
+
 class UserProfileAdapter extends TypeAdapter<String> {
   @override
   final int typeId = 0; // You can choose any unique id

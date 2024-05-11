@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/my_button.dart';
 import '../components/text_field.dart';
+import '../data/hive_database.dart';
+import '../model/user_profile.dart';
 
 class CreateProfilePage extends StatefulWidget {
-  // final void Function()? onTap;
-  const CreateProfilePage({super.key, });
+  const CreateProfilePage({
+    super.key,
+  });
 
   @override
   State<CreateProfilePage> createState() => _CreateProfilePageState();
@@ -13,14 +16,17 @@ class CreateProfilePage extends StatefulWidget {
 
 class _CreateProfilePageState extends State<CreateProfilePage> {
   final userNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final HiveDatabase _hiveDatabase = HiveDatabase();
   //user signup
+  void signUp() async {
+    final userProfile = UserProfile(
+      userName: userNameController.text,
+    );
 
+    await _hiveDatabase.addUserProfile(userProfile);
 
-    //get auth service
-
+    //Todo: Navigate to the main page or any other page
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,42 +71,11 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                       obscureText: false),
 
                   const SizedBox(
-                    height: 15,
-                  ),
-
-                  // email text field
-                  MyTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      obscureText: false),
-
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  // password text field
-                  MyTextField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      obscureText: true),
-
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  // confirm password text field
-                  MyTextField(
-                      controller: confirmPasswordController,
-                      hintText: 'Confirm Password',
-                      obscureText: true),
-
-                  const SizedBox(
                     height: 25,
                   ),
 
                   //sign-up button
-                  //SignButton(onTap: signUp, text: 'Sign up'),
-
+                  MyButton(onPressed: signUp, text: 'Sign up'),
                 ],
               ),
             ),

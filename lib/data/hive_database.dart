@@ -23,16 +23,44 @@ class HiveDatabase {
     _weightEntryBox = await Hive.openBox<WeightEntry>(_weightEntryBoxName);
   }
 
+  Future<void> deleteUserDatabase() async {
+    await _userProfileBox.clear(); // Clear user profiles
+    await _weightEntryBox.clear(); // Clear weight entries
+  }
+
+  // User Profile CRUD operations
+
   Future<void> addUserProfile(UserProfile userProfile) async {
     await _userProfileBox.add(userProfile);
   }
+
+  List<UserProfile> getUserProfiles() {
+    return _userProfileBox.values.toList();
+  }
+
+  Future<void> updateUserProfile(int index, UserProfile updatedProfile) async {
+    await _userProfileBox.putAt(index, updatedProfile);
+  }
+
+  Future<void> deleteUserProfile(int index) async {
+    await _userProfileBox.deleteAt(index);
+  }
+
+  // Weight Entry CRUD operations
 
   Future<void> addWeightEntry(WeightEntry weightEntry) async {
     await _weightEntryBox.add(weightEntry);
   }
 
-  Future<void> deleteUserDatabase() async {
-    await _userProfileBox.clear(); // Clear user profiles
-    await _weightEntryBox.clear(); // Clear weight entries
+  List<WeightEntry> getWeightEntries() {
+    return _weightEntryBox.values.toList();
+  }
+
+  Future<void> updateWeightEntry(int index, WeightEntry updatedEntry) async {
+    await _weightEntryBox.putAt(index, updatedEntry);
+  }
+
+  Future<void> deleteWeightEntry(int index) async {
+    await _weightEntryBox.deleteAt(index);
   }
 }
