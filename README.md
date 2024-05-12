@@ -2,15 +2,23 @@
 
 A Weight Tracking Application
 
-## Getting Started
+### Packages used
 
-This project is a starting point for a Flutter application.
+  cupertino_icons: ^1.0.6
+  fl_chart: ^0.67.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  font_awesome_flutter: ^10.7.0
+  intl: ^0.19.0
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### ScreenShots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+<img src = "https://github.com/Gsuyash20/weight_tracker/assets/78982011/f139fac6-107c-40a5-87d0-6cdb5fec6066" width = "300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <img src = "https://github.com/Gsuyash20/weight_tracker/assets/78982011/58f68105-782d-4b32-bbfa-18e8c3e00bac" width = "300">
+
+<img src = "https://github.com/Gsuyash20/weight_tracker/assets/78982011/43a855a5-0b87-4823-8428-ef94f3c75f78" width = "300"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <img src = "https://github.com/Gsuyash20/weight_tracker/assets/78982011/56e70a61-76f0-481e-a350-868d5f29112b" width = "300">
+
+<img src="https://github.com/Gsuyash20/weight_tracker/assets/78982011/608b98df-2c55-4016-b68d-8085d8c74cc7" width= "300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <img src ="https://github.com/Gsuyash20/weight_tracker/assets/78982011/b891a127-c02a-4060-98ba-fc3649b189c4" width = "300">
+
+<img src="https://github.com/Gsuyash20/weight_tracker/assets/78982011/8519db5a-9191-4b6a-a2db-68fbaf69ebd6" width= "300">
