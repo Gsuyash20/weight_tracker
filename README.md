@@ -4,12 +4,12 @@ A Weight Tracking Application
 
 ### Packages used
 
-  cupertino_icons: ^1.0.6
-  fl_chart: ^0.67.0
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  font_awesome_flutter: ^10.7.0
-  intl: ^0.19.0
+  1. cupertino_icons: ^1.0.6
+  2. fl_chart: ^0.67.0
+  3. hive: ^2.2.3
+  4. hive_flutter: ^1.1.0
+  5. font_awesome_flutter: ^10.7.0
+  6. intl: ^0.19.0
 
 
 ### ScreenShots
