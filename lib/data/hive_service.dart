@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../model/weight_entryy.dart';
+import '../model/weight_entry.dart';
 
 class HiveService {
   final _box = Hive.box<WeightEntry>('Weight_Database');
@@ -36,6 +36,7 @@ class HiveService {
     // final box =  Hive.box(_boxName);
     await _box.clear(); // Clear all data in the box
   }
+
   Future<List<WeightEntry>> getWeightEntries() async {
     List<WeightEntry> entries = _box.values.toList();
     return entries;

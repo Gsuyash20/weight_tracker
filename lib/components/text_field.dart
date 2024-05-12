@@ -7,9 +7,10 @@ class MyTextField extends StatelessWidget {
   final TextInputType keyBoardType;
   const MyTextField(
       {super.key,
-        required this.controller,
-        required this.hintText,
-        required this.obscureText, required this.keyBoardType});
+      required this.controller,
+      required this.hintText,
+      required this.obscureText,
+      required this.keyBoardType});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,7 @@ class MyTextField extends StatelessWidget {
           fillColor: Colors.grey.shade200,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade500)
-      ),
+          hintStyle: TextStyle(color: Colors.grey.shade500)),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/my_button.dart';
 import '../components/text_field.dart';
 import '../data/hive_service.dart';
-import '../model/user_profile.dart';
 import 'main_page.dart';
 
 class CreateProfilePage extends StatefulWidget {
@@ -19,14 +18,14 @@ final HiveService _hiveService = HiveService();
 final TextEditingController userNameController = TextEditingController();
 final TextEditingController weightController = TextEditingController();
 
-
 class _CreateProfilePageState extends State<CreateProfilePage> {
   // User signup
   void signUp() async {
     String username = userNameController.text;
-    double weight = double.parse(weightController.text); // Assuming weight is entered as a string and needs parsing
+    double weight = double.parse(weightController
+        .text); // Assuming weight is entered as a string and needs parsing
 
-    if (username.isNotEmpty && weight > 0 && weight<=120) {
+    if (username.isNotEmpty && weight > 0 && weight <= 120) {
       await _hiveService.addWeight(username, weight, DateTime.now());
       Navigator.pushReplacement(
         context,
@@ -38,7 +37,8 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       // Show error or prompt user to enter all required fields
       AlertDialog(
         title: const Text('Alert'),
-        content: const Text('Please enter all fields and weight should be less than 120'),
+        content: const Text(
+            'Please enter all fields and weight should be less than 120'),
         actions: <Widget>[
           TextButton(
             child: const Text('OK'),
@@ -50,7 +50,6 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

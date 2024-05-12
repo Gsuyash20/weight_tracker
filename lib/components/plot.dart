@@ -3,26 +3,24 @@ import 'package:flutter/material.dart';
 
 class Titles {
   static getTitleData() => const FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-            reservedSize: 30,
-            interval: 1,
-
-          ),
+      show: true,
+      bottomTitles: AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: false,
+          reservedSize: 30,
+          interval: 1,
         ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            interval: 1,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-          ),
+      ),
+      leftTitles: AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: true,
+          interval: 1,
+          getTitlesWidget: leftTitleWidgets,
+          reservedSize: 42,
         ),
-        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))
-      );
+      ),
+      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)));
 }
 
 // Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -53,7 +51,7 @@ Widget leftTitleWidgets(double value, TitleMeta meta) {
   String text;
   if (value == 20) {
     text = '20';
-  }else if (value == 40) {
+  } else if (value == 40) {
     text = '40';
   } else if (value == 60) {
     text = '60';
@@ -69,4 +67,3 @@ Widget leftTitleWidgets(double value, TitleMeta meta) {
 
   return Text(text, style: style, textAlign: TextAlign.left);
 }
-

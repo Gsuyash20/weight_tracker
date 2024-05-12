@@ -5,7 +5,7 @@ import 'package:weight_tracker/components/plot.dart';
 import '../components/card_tile.dart';
 import '../components/frosted_glass.dart';
 import '../data/hive_service.dart';
-import '../model/weight_entryy.dart';
+import '../model/weight_entry.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-
   // Generate chart data from WeightEntry list
   List<FlSpot> _generateChartData(List<WeightEntry> entries) {
     List<FlSpot> data = [];
@@ -54,8 +53,6 @@ class _HomePageState extends State<HomePage> {
       chartData = _generateChartData(weightEntries);
     });
   }
-
-
 
   void _saveNewEntry() async {
     double? weight = double.tryParse(_controller.text);
@@ -78,14 +75,14 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Invalid Weight'),
-            content: Text('Please enter a weight less than 120.'),
+            title: const Text('Invalid Weight'),
+            content: const Text('Please enter a weight less than 120.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -93,7 +90,6 @@ class _HomePageState extends State<HomePage> {
       );
     }
   }
-
 
   // create a new entry
   void _createNewEntry() {
@@ -112,13 +108,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(
-      //     //Todo: add username
-      //     'Hi "$_username",',
-      //     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       appBar: AppBar(
         title: FutureBuilder<String?>(
           future: hs.getUsername(),
@@ -129,7 +118,8 @@ class _HomePageState extends State<HomePage> {
               final username = snapshot.data ?? 'Unknown User';
               return Text(
                 'Hi $username,',
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               );
             }
           },

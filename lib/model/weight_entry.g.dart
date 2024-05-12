@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'weight_entryy.dart';
+part of 'weight_entry.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

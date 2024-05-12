@@ -11,9 +11,10 @@ class MyButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
           backgroundColor: Colors.grey.shade200,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
-          textStyle: const TextStyle(
-              fontWeight: FontWeight.bold)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          textStyle: const TextStyle(fontWeight: FontWeight.bold)),
       child: Text(text),
     );
   }

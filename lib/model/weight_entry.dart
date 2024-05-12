@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-part 'weight_entryy.g.dart';
+part 'weight_entry.g.dart';
 
 @HiveType(typeId: 0)
 class WeightEntry {
@@ -12,5 +12,6 @@ class WeightEntry {
   @HiveField(2)
   final DateTime time;
 
-  WeightEntry({required this.username, required this.weight, required this.time});
+  WeightEntry(
+      {required this.username, required this.weight, required this.time});
 }

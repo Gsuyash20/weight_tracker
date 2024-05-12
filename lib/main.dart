@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:weight_tracker/pages/create_profile.dart';
-import 'model/weight_entryy.dart';
+import 'model/weight_entry.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding
