@@ -4,8 +4,8 @@ import 'package:weight_tracker/components/dialog_box.dart';
 import 'package:weight_tracker/components/plot.dart';
 import '../components/card_tile.dart';
 import '../components/frosted_glass.dart';
-import '../data/hive_database.dart';
-import '../model/weight_entry.dart';
+import '../data/hive_service.dart';
+import '../model/weight_entryy.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,30 +16,93 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
-  late final HiveDatabase _hiveDatabase;
-  late String _username;
+  HiveService hs = HiveService();
+  List<FlSpot> chartData = [];
+
   @override
   void initState() {
     super.initState();
-    _hiveDatabase = HiveDatabase();
-    _username =_hiveDatabase.getUsername();
-  }
-  //save new entry
-  void saveNewEntry() async {
-    final weightEntry = WeightEntry(
-        weightInKg: double.parse(_controller.text), entryTime: DateTime.now());
-    await _hiveDatabase.addWeightEntry(weightEntry);
-    Navigator.of(context).pop(); // Close the dialog
+    _loadChartData();
   }
 
+  // Load initial chart data
+  void _loadChartData() async {
+    final List<dynamic> entries = await hs.getWeights();
+    // Ensure entries are of type WeightEntry
+    List<WeightEntry> weightEntries = entries.cast<WeightEntry>();
+    setState(() {
+      chartData = _generateChartData(weightEntries);
+    });
+  }
+
+
+  // Generate chart data from WeightEntry list
+  List<FlSpot> _generateChartData(List<WeightEntry> entries) {
+    List<FlSpot> data = [];
+    for (int i = 0; i < entries.length; i++) {
+      data.add(FlSpot(i.toDouble(), entries[i].weight));
+    }
+    return data;
+  }
+
+  // Function to update chart data when a new entry is added
+  void _updateChartData() async {
+    final List<dynamic> entries = await hs.getWeights();
+    // Ensure entries are of type WeightEntry
+    List<WeightEntry> weightEntries = entries.cast<WeightEntry>();
+    setState(() {
+      chartData = _generateChartData(weightEntries);
+    });
+  }
+
+
+
+  void _saveNewEntry() async {
+    double? weight = double.tryParse(_controller.text);
+    if (weight != null && weight < 120) {
+      final weightEntry = WeightEntry(
+        username: await hs.getUsername() ?? 'Unknown User',
+        weight: weight,
+        time: DateTime.now(),
+      );
+      await hs.addWeight(
+        weightEntry.username,
+        weightEntry.weight,
+        weightEntry.time,
+      );
+      _updateChartData();
+      setState(() {});
+      Navigator.of(context).pop(); // Close the dialog
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Invalid Weight'),
+            content: Text('Please enter a weight less than 120.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+
   // create a new entry
-  void createNewEntry() {
+  void _createNewEntry() {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
           controller: _controller,
-          onSave: saveNewEntry,
+          onSave: _saveNewEntry,
           onCancel: () => Navigator.of(context).pop(),
         );
       },
@@ -49,11 +112,27 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text(
+      //     //Todo: add username
+      //     'Hi "$_username",',
+      //     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      //   ),
+      // ),
       appBar: AppBar(
-        title: Text(
-          //Todo: add username
-          'Hi "$_username",',
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        title: FutureBuilder<String?>(
+          future: hs.getUsername(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox();
+            } else {
+              final username = snapshot.data ?? 'Unknown User';
+              return Text(
+                'Hi $username,',
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              );
+            }
+          },
         ),
       ),
       body: Column(
@@ -79,35 +158,24 @@ class _HomePageState extends State<HomePage> {
                             height: MediaQuery.of(context).size.height / 3,
                             child: LineChart(
                               LineChartData(
-                                  minX: 0,
-                                  maxX: 11,
-                                  minY: 30, // minimum weight = 30
-                                  maxY: 120, //maximum weight = 120
-                                  lineBarsData: [
-                                    LineChartBarData(
-                                        spots: const [
-                                          FlSpot(0, 39),
-                                          FlSpot(1, 50),
-                                          FlSpot(2, 69),
-                                          FlSpot(3, 89),
-                                          FlSpot(4, 45),
-                                          FlSpot(5, 87),
-                                          FlSpot(6, 110),
-                                          FlSpot(7, 109),
-                                          FlSpot(8, 40),
-                                          FlSpot(9, 69),
-                                          FlSpot(10, 99),
-                                          FlSpot(11, 115),
-                                        ],
-                                        isCurved: true,
-                                        color: Colors.teal,
-                                        barWidth: 3,
-                                        belowBarData: BarAreaData(
-                                            show: true,
-                                            color:
-                                                Colors.teal.withOpacity(0.3)))
-                                  ],
-                                  titlesData: Titles.getTitleData()),
+                                minX: 0,
+                                maxX: chartData.length.toDouble() - 1,
+                                minY: 0, // minimum weight = 0
+                                maxY: 120, // maximum weight = 120
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    spots: chartData,
+                                    isCurved: true,
+                                    color: Colors.teal,
+                                    barWidth: 3,
+                                    belowBarData: BarAreaData(
+                                      show: true,
+                                      color: Colors.teal.withOpacity(0.3),
+                                    ),
+                                  ),
+                                ],
+                                titlesData: Titles.getTitleData(),
+                              ),
                             ),
                           ),
                         )
@@ -121,22 +189,33 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w300),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _hiveDatabase.getWeightEntries().length,
-              itemBuilder: (context, index) {
-                final entry = _hiveDatabase.getWeightEntries()[index];
-                return CardTile(
-                  weightInKg: entry.weightInKg,
-                  entryTime: entry.entryTime,
-                );
+            child: FutureBuilder<List<dynamic>>(
+              future: hs.getWeights(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final weightEntries = snapshot.data ?? [];
+                  return ListView.builder(
+                    itemCount: weightEntries.length,
+                    itemBuilder: (context, index) {
+                      final entry = weightEntries[index];
+                      return CardTile(
+                        weightInKg: entry.weight,
+                        entryTime: entry.time,
+                      );
+                    },
+                  );
+                }
               },
             ),
-          )
-
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: createNewEntry,
+        onPressed: _createNewEntry,
         tooltip: 'Create Entry',
         child: const Icon(Icons.edit),
       ),

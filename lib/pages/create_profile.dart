@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/my_button.dart';
 import '../components/text_field.dart';
-import '../data/hive_database.dart';
+import '../data/hive_service.dart';
 import '../model/user_profile.dart';
+import 'main_page.dart';
 
 class CreateProfilePage extends StatefulWidget {
   const CreateProfilePage({
@@ -14,19 +15,42 @@ class CreateProfilePage extends StatefulWidget {
   State<CreateProfilePage> createState() => _CreateProfilePageState();
 }
 
+final HiveService _hiveService = HiveService();
+final TextEditingController userNameController = TextEditingController();
+final TextEditingController weightController = TextEditingController();
+
+
 class _CreateProfilePageState extends State<CreateProfilePage> {
-  final userNameController = TextEditingController();
-  final HiveDatabase _hiveDatabase = HiveDatabase();
-  //user signup
+  // User signup
   void signUp() async {
-    final userProfile = UserProfile(
-      userName: userNameController.text,
-    );
+    String username = userNameController.text;
+    double weight = double.parse(weightController.text); // Assuming weight is entered as a string and needs parsing
 
-    await _hiveDatabase.addUserProfile(userProfile);
-
-    //Todo: Navigate to the main page or any other page
+    if (username.isNotEmpty && weight > 0 && weight<=120) {
+      await _hiveService.addWeight(username, weight, DateTime.now());
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage()),
+      );
+      userNameController.clear();
+      weightController.clear();
+    } else {
+      // Show error or prompt user to enter all required fields
+      AlertDialog(
+        title: const Text('Alert'),
+        content: const Text('Please enter all fields and weight should be less than 120'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +67,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                     height: 50,
                   ),
 
-                  //logo
+                  // Logo
                   const FaIcon(
                     FontAwesomeIcons.weightScale,
                     size: 100,
@@ -54,7 +78,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                     height: 50,
                   ),
 
-                  //create account message
+                  // Create account message
                   const Text(
                     "Welcome, Let's Create Your Account",
                     style: TextStyle(fontSize: 24),
@@ -64,30 +88,31 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                   const SizedBox(
                     height: 25,
                   ),
-                  //username text field
+                  // Username text field
                   MyTextField(
-                      controller: userNameController,
-                      hintText: 'Username',
-                      obscureText: false),
+                    controller: userNameController,
+                    hintText: 'Username',
+                    obscureText: false,
+                    keyBoardType: TextInputType.text,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  MyTextField(
+                    controller: weightController,
+                    hintText: 'Enter Weight',
+                    obscureText: false,
+                    keyBoardType: TextInputType.number,
+                  ),
 
                   const SizedBox(
                     height: 25,
                   ),
 
-                  //sign-up button
-                  ElevatedButton(
+                  // Sign-up button
+                  MyButton(
                     onPressed: signUp,
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(
-                            MediaQuery.of(context).size.width / 1.5,
-                            MediaQuery.of(context).size.height / 15),
-                        backgroundColor: Colors.grey.shade200,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        textStyle: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold)),
-                    child: const Text('Sign Up'),
+                    text: 'Sign Up',
                   )
                 ],
               ),

@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:weight_tracker/pages/create_profile.dart';
-import 'package:weight_tracker/pages/home_page.dart';
-import 'package:weight_tracker/pages/main_page.dart';
-
-import 'model/user_profile.dart';
-import 'model/weight_entry.dart';
+import 'model/weight_entryy.dart';
 
 Future<void> main() async {
-  // initialize hive
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure Flutter bindings are initialized
   await Hive.initFlutter();
-
-  //open a hive box
-  await Hive.openBox("weight_database");
-  Hive.registerAdapter(UserProfileAdapter());
   Hive.registerAdapter(WeightEntryAdapter());
-
+  if (!Hive.isBoxOpen('Weight_Database')) {
+    await Hive.openBox<WeightEntry>(
+      "Weight_Database",
+    ); // Open the box with the specific type
+  }
   runApp(const MyApp());
 }
 
@@ -27,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MainPage(),
+      home: CreateProfilePage(),
       debugShowCheckedModeBanner: false,
     );
   }

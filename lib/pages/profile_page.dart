@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../data/hive_database.dart';
+import 'package:weight_tracker/pages/create_profile.dart';
+import '../data/hive_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -10,12 +10,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final HiveDatabase _hiveDatabase = HiveDatabase();
-  late String _username;
+  final HiveService _hiveService = HiveService();
+
   @override
   void initState() {
     super.initState();
-    _username =_hiveDatabase.getUsername();
   }
 
   Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
@@ -33,10 +32,14 @@ class _ProfilePageState extends State<ProfilePage> {
               child: const Text("Cancel"),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 // Perform deletion and close the dialog
-                _hiveDatabase.deleteAllUserData();
-                Navigator.of(context).pop();
+                await _hiveService.deleteAllUserData();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateProfilePage()),
+                );
               },
               child: const Text("Delete"),
             ),
@@ -54,6 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
           'Profile',
           style: TextStyle(fontSize: 24),
         ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
       ),
       body: Center(
@@ -64,8 +68,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  borderRadius: BorderRadius.circular(24)),
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: BorderRadius.circular(24),
+              ),
               padding: const EdgeInsets.all(25),
               child: const Icon(
                 Icons.person,
@@ -75,16 +80,27 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(
               height: 15,
             ),
-             Expanded(
-                child: Text(
-              _username,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-            )),
+            FutureBuilder<String?>(
+              future: _hiveService.getUsername(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox();
+                } else {
+                  final username = snapshot.data ?? 'Unknown User';
+                  return Text(
+                    username,
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  );
+                }
+              },
+            ),
             ElevatedButton(
-                onPressed: () {
-                  _showDeleteConfirmationDialog(context);
-                },
-                child: const Text('Delete your data')),
+              onPressed: () {
+                _showDeleteConfirmationDialog(context);
+              },
+              child: const Text('Delete your data'),
+            ),
             const SizedBox(
               height: 20,
             )

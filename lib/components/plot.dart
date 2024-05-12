@@ -6,10 +6,10 @@ class Titles {
         show: true,
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: false,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+
           ),
         ),
         leftTitles: AxisTitles(
@@ -25,32 +25,25 @@ class Titles {
       );
 }
 
-Widget bottomTitleWidgets(double value, TitleMeta meta) {
-  const style = TextStyle(
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-  );
-  Widget text;
-  switch (value.toInt()) {
-    case 2:
-      text = const Text('MAR', style: style);
-      break;
-    case 5:
-      text = const Text('JUN', style: style);
-      break;
-    case 8:
-      text = const Text('SEP', style: style);
-      break;
-    default:
-      text = const Text('', style: style);
-      break;
-  }
-
-  return SideTitleWidget(
-    axisSide: meta.axisSide,
-    child: text,
-  );
-}
+// Widget bottomTitleWidgets(double value, TitleMeta meta) {
+//   const style = TextStyle(
+//     fontWeight: FontWeight.w500,
+//     fontSize: 16,
+//   );
+//   Widget text;
+//   final List<String> monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+//
+//   if (value.toInt() >= 0 && value.toInt() < monthNames.length) {
+//     text = Text(monthNames[value.toInt()], style: style);
+//   } else {
+//     text = const Text('', style: style); // Default to empty string if value is out of range
+//   }
+//
+//   return SideTitleWidget(
+//     axisSide: meta.axisSide,
+//     child: text,
+//   );
+// }
 
 Widget leftTitleWidgets(double value, TitleMeta meta) {
   const style = TextStyle(
@@ -58,24 +51,22 @@ Widget leftTitleWidgets(double value, TitleMeta meta) {
     fontSize: 15,
   );
   String text;
-  switch (value.toInt()) {
-    case 1:
-      text = '40';
-      break;
-    case 3:
-      text = '60';
-      break;
-    case 5:
-      text = '80';
-      break;
-    case 7:
-      text = '100';
-      break;
-    case 9:
-      text = '120';
-    default:
-      return Container();
+  if (value == 20) {
+    text = '20';
+  }else if (value == 40) {
+    text = '40';
+  } else if (value == 60) {
+    text = '60';
+  } else if (value == 80) {
+    text = '80';
+  } else if (value == 100) {
+    text = '100';
+  } else if (value == 120) {
+    text = '120';
+  } else {
+    text = ''; // No text for other values
   }
 
   return Text(text, style: style, textAlign: TextAlign.left);
 }
+
